@@ -63,9 +63,13 @@ public class Client {
       });
       intThread.start();
 
-
       while (clientSocket.isConnected()) {
-        System.out.println(inStream.readObject());
+        String in = (String)inStream.readObject();
+        if (in.equals("\nSERVER IS SHUTTED DOWN")) {
+          System.out.println(in);
+          System.exit(105);
+        }
+        System.out.println(in);
       }
 
     } catch (IOException | ClassNotFoundException e) {
