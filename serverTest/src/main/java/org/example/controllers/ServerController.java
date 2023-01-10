@@ -1,6 +1,8 @@
 package org.example.controllers;
 
+import java.io.IOException;
 import java.net.Socket;
+import org.example.model.ClientCard;
 import org.example.services.ServerUtilities;
 import org.example.model.Server;
 
@@ -11,28 +13,42 @@ import org.example.model.Server;
  */
 public class ServerController {
 
+  private ServerController() {
+    throw new IllegalStateException("Controller class");
+  }
+
   public static void work(int port) {
     try {
-      Server test = new Server(port);
+      Server server = new Server(port);
 
-      Thread trServer = new Thread(() -> ServerUtilities.serverConsole(test));
+      Thread trServer = new Thread(() -> {
+        String scanner = ServerUtilities.getScanner();
+        ServerUtilities.serverConsole(server,scanner);
+      });
       trServer.start();
 
-      while (!test.getServerSocket().isClosed()) {
-        Socket clientSocket = ServerUtilities.acceptClientSocket(test);
+      while (!server.getServerSocket().isClosed()) {
+
+        //Socket accepting and adding to Map
+        Socket clientSocket = server.getServerSocket().accept();
+        server.getServerConnections().put(clientSocket, new ClientCard(clientSocket));
+
         //Sending
-        ServerUtilities.serverMassSending(test,
+        ServerUtilities.serverMassSending(server,
             "\n[Client" + clientSocket.getPort() + " is Online...]");
+
         //Receiving
-        Thread tr = new Thread(() -> ServerUtilities.serverClientLogic(clientSocket, test));
+        Thread tr = new Thread(() -> ServerUtilities.serverClientLogic(clientSocket, server));
         tr.start();
-        test.getThreadList().add(tr);
+        server.getThreadList().add(tr);
+
       }
 
-      for (Thread thread : test.getThreadList()) {
+      for (Thread thread : server.getThreadList()) {
         thread.join();
       }
-    } catch (InterruptedException e) {
+
+    } catch (InterruptedException |IOException e) {
       e.printStackTrace();
       // Restore interrupted state...
       Thread.currentThread().interrupt();

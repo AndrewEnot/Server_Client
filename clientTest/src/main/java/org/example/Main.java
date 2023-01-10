@@ -1,8 +1,6 @@
 package org.example;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import org.example.controller.ClientController;
 
 /*
  * @author Oksiuta Andrii
@@ -12,6 +10,6 @@ import java.io.ObjectInputStream;
 public class Main {
 
   public static void main(String[] args) {
-
+    ClientController.work(8080);
   }
 }
