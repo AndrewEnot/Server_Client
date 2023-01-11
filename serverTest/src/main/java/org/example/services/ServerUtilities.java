@@ -22,6 +22,8 @@ public class ServerUtilities {
     throw new IllegalStateException("Utility class");
   }
 
+  /**This method is logic for server work with commands from operator
+   * */
   public static void serverConsole(Server server, String command) {
     if (server == null || command == null) {
       return;
@@ -34,6 +36,8 @@ public class ServerUtilities {
     }
   }
 
+  /**Method for sending messages to all clients on-line
+   * */
   public static void serverMassSending(Server server, String massage) {
     for (Entry<Socket, ClientCard> socketStringEntry : server.getServerConnections().entrySet()) {
       try {
@@ -45,6 +49,8 @@ public class ServerUtilities {
     System.out.println(massage);
   }
 
+  /**Main logic method, switcher
+   * */
   public static void serverClientLogic(Socket clientSocket, Server server) {
     try {
       ObjectInputStream inStream = server.getServerConnections().get(clientSocket)
@@ -81,6 +87,8 @@ public class ServerUtilities {
     }
   }
 
+  /**Method for receiving commands from console
+   * */
   public static String getScanner() {
     Scanner textIn = new Scanner(System.in);
     System.out.print("Input a command... ");

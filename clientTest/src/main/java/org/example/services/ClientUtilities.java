@@ -18,6 +18,8 @@ public class ClientUtilities {
     throw new IllegalStateException("Utility class");
   }
 
+  /**Method for receiving commands from console
+   * */
   private static String getScanner(String message) {
     String text = "";
     if (message != null) {
@@ -37,7 +39,8 @@ public class ClientUtilities {
       switcher(client.getObjectOutputStream(), text);
     }
   }
-
+  /**Method-switcher as main part of client logic
+   * */
   public static void switcher(ObjectOutputStream clientStream, String text) {
     if (clientStream == null || text == null) {
       return;
@@ -59,6 +62,8 @@ public class ClientUtilities {
     }
   }
 
+  /**Method manages process of file sending
+   * */
   public static boolean isFileSend(ObjectOutputStream clientStream, String path) {
     if (clientStream == null || path == null) {
       return false;
@@ -84,6 +89,8 @@ public class ClientUtilities {
     return false;
   }
 
+  /**Method with exit process for client
+   * */
   public static void exitClient(ObjectOutputStream clientStream, String text) {
     if (clientStream == null || text == null) {
       return;
