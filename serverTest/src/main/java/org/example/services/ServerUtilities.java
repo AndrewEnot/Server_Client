@@ -63,7 +63,7 @@ public class ServerUtilities {
             System.out.println(o);
             Object f = inStream.readObject();
             File file = new File(
-                "./src/main/resources",
+                "serverTest/src/main/resources",
                 "file_" + server.getServerConnections().get(clientSocket).getName() + "_"
                     + LocalDate.now());
             try (FileWriter writer = new FileWriter(file)) {
